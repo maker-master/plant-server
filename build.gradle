@@ -1,0 +1,42 @@
+
+
+plugins {
+	id 'org.springframework.boot' version '2.0.6.RELEASE'
+//	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+	imports {
+		mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:2.0.3.RELEASE"
+	}
+}
+
+group = 'io.pcf.plantserver'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	compile "org.springframework.boot:spring-boot-starter-actuator"
+	compile "io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry"
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+bootRun.environment([
+        "RANDOM_GREETING_ENDPOINT": "http://localhost:8080/api/v1/greetings/random"
+])

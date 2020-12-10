@@ -1,0 +1,11 @@
+---
+applications:
+  - name: plant-server
+    path: ./build/libs/plant-server.jar
+    routes:
+      - route: plant-server-vincent.cfapps.io
+    env:
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+      RANDOM_GREETING_ENDPOINT: "http://greeting-server-vincent.cfapps.io/api/v1/greetings/random"
+    services:
+      - pcf-service-registry
